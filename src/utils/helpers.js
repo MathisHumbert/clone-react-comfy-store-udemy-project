@@ -10,6 +10,10 @@ export const getUniqueValues = (type, value) => {
     return item[type];
   });
 
+  if (type === 'colors') {
+    tempValue = tempValue.flat();
+  }
+
   tempValue = [...new Set(['all', ...tempValue])];
 
   return tempValue;

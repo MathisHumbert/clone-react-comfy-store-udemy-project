@@ -59,7 +59,7 @@ export const FilterProvider = ({ children }) => {
     }
 
     console.log(name, value);
-    dispatch({ type: UPDATE_FILTERS, payload: { name, value } });
+    // dispatch({ type: UPDATE_FILTERS, payload: { name, value } });
   };
 
   return (
