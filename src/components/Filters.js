@@ -1,12 +1,67 @@
-import React from 'react'
-import styled from 'styled-components'
-import { useFilterContext } from '../context/filter_context'
-import { getUniqueValues, formatPrice } from '../utils/helpers'
-import { FaCheck } from 'react-icons/fa'
+import React from 'react';
+import styled from 'styled-components';
+import { useFilterContext } from '../context/filter_context';
+import { getUniqueValues, formatPrice } from '../utils/helpers';
+import { FaCheck } from 'react-icons/fa';
 
 const Filters = () => {
-  return <h4>filters</h4>
-}
+  const { filters, handleFilters, filtered_products } = useFilterContext();
+  const { text, category, company, colors, price, shipping } = filters;
+  const categories = getUniqueValues('category', filtered_products);
+  const companies = getUniqueValues('company', filtered_products);
+
+  return (
+    <Wrapper>
+      <div className="content">
+        <form onClick={(e) => e.preventDefault()}>
+          {/* text */}
+          <div className="form-control">
+            <input
+              type="text"
+              name="text"
+              placeholder="search"
+              className="search-input"
+              value={text}
+              onChange={handleFilters}
+            />
+          </div>
+          {/* category */}
+          <div className="form-control">
+            <h5>category</h5>
+            <div>
+              {categories.map((item, index) => {
+                return (
+                  <button
+                    type="button"
+                    name="category"
+                    className={item === category ? 'active' : null}
+                    key={index}
+                    onClick={handleFilters}
+                  >
+                    {item}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+          {/* company */}
+          <div className="form-control">
+            <h5>company</h5>
+            <select name="company" className="company">
+              {companies.map((item, index) => {
+                return (
+                  <option value={item} key={index}>
+                    {item}
+                  </option>
+                );
+              })}
+            </select>
+          </div>
+        </form>
+      </div>
+    </Wrapper>
+  );
+};
 
 const Wrapper = styled.section`
   .form-control {
@@ -105,6 +160,6 @@ const Wrapper = styled.section`
       top: 1rem;
     }
   }
-`
+`;
 
-export default Filters
+export default Filters;

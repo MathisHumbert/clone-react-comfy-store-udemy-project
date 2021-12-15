@@ -5,4 +5,12 @@ export const formatPrice = (number) => {
   }).format(number / 100);
 };
 
-export const getUniqueValues = () => {};
+export const getUniqueValues = (type, value) => {
+  let tempValue = value.map((item) => {
+    return item[type];
+  });
+
+  tempValue = [...new Set(['all', ...tempValue])];
+
+  return tempValue;
+};
