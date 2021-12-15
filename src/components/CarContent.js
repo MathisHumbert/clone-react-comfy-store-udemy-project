@@ -1,14 +1,38 @@
-import React from 'react'
-import styled from 'styled-components'
-import { useCartContext } from '../context/cart_context'
-import { Link } from 'react-router-dom'
-import CartColumns from './CartColumns'
-import CartItem from './CartItem'
-import CartTotals from './CartTotals'
+import React from 'react';
+import styled from 'styled-components';
+import { useCartContext } from '../context/cart_context';
+import { Link } from 'react-router-dom';
+import CartColumns from './CartColumns';
+import CartItem from './CartItem';
+import CartTotals from './CartTotals';
 
 const CartContent = () => {
-  return <h4>cart content </h4>
-}
+  const { clearCart, products } = useCartContext();
+  return (
+    <Wrapper className="section section-center">
+      <CartColumns />
+      <hr />
+      {products.map((item) => {
+        const { id } = item;
+        return <CartItem key={id} {...item} />;
+      })}
+      <hr />
+      <div className="link-container">
+        <Link to="/products" className="link-btn">
+          continue shopping
+        </Link>
+        <button
+          className="link-btn clear-btn"
+          type="button"
+          onClick={clearCart}
+        >
+          clear shopping cart
+        </button>
+      </div>
+      <CartTotals />
+    </Wrapper>
+  );
+};
 const Wrapper = styled.section`
   .link-container {
     display: flex;
@@ -30,5 +54,5 @@ const Wrapper = styled.section`
   .clear-btn {
     background: var(--clr-black);
   }
-`
-export default CartContent
+`;
+export default CartContent;
