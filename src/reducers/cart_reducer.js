@@ -22,7 +22,7 @@ const cart_reducer = (state, action) => {
 
   if (action.type === REMOVE_CART_ITEM) {
     const products = state.products.filter(
-      (item) => item.id !== action.payloas
+      (item) => item.id !== action.payload
     );
     return { ...state, products };
   }
@@ -38,12 +38,14 @@ const cart_reducer = (state, action) => {
           return { ...item, amount };
         } else {
           let amount = item.amount - 1;
-          if (amount < 0) amount = 1;
+          if (amount < 1) amount = 1;
           return { ...item, amount };
         }
       }
       return item;
     });
+
+    return { ...state, products };
   }
 
   if (action.type === CLEAR_CART) {
@@ -53,10 +55,14 @@ const cart_reducer = (state, action) => {
   if (action.type === COUNT_CART_TOTALS) {
     const { amount, price } = state.products.reduce(
       (acc, curr) => {
+        acc.amount += curr.amount;
+        acc.price += curr.amount * curr.price;
         return acc;
       },
       { amount: 0, price: 0 }
     );
+    console.log(amount, price);
+    return { ...state, amount, price };
   }
   throw new Error(`No Matching "${action.type}" - action type`);
 };

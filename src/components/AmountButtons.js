@@ -2,13 +2,16 @@ import React from 'react';
 import styled from 'styled-components';
 import { FaPlus, FaMinus } from 'react-icons/fa';
 
-const AmountButtons = ({ amount, toggleAmount }) => {
+const AmountButtons = ({ amount, toggleAmount, toggleCartAmount, id }) => {
   return (
     <Wrapper className="amount-btn">
       <button
         className="amount-btn"
         type="button"
-        onClick={() => toggleAmount('dec')}
+        onClick={() => {
+          if (toggleAmount) toggleAmount('dec');
+          if (toggleCartAmount) toggleCartAmount(id, 'dec');
+        }}
       >
         <FaMinus />
       </button>
@@ -16,7 +19,10 @@ const AmountButtons = ({ amount, toggleAmount }) => {
       <button
         className="amount-btn"
         type="button"
-        onClick={() => toggleAmount('inc')}
+        onClick={() => {
+          if (toggleAmount) toggleAmount('inc');
+          if (toggleCartAmount) toggleCartAmount(id, 'inc');
+        }}
       >
         <FaPlus />
       </button>

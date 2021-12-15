@@ -15,6 +15,7 @@ const ProductImages = ({ images }) => {
               key={imageIndex}
               className={image.url === mainImage ? 'active' : null}
               onClick={() => setMainImage(images[imageIndex].url)}
+              alt="product-img"
             />
           );
         })}

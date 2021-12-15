@@ -31,20 +31,20 @@ export const CartProvider = ({ children }) => {
     dispatch({ type: REMOVE_CART_ITEM, payload: id });
   };
 
-  const toggleAmount = (id) => {
-    dispatch({ type: TOGGLE_CART_ITEM_AMOUNT });
+  const toggleAmount = (id, type) => {
+    dispatch({ type: TOGGLE_CART_ITEM_AMOUNT, payload: { id, type } });
   };
 
   const clearCart = () => {
     dispatch({ type: CLEAR_CART });
   };
 
-  // const countCartTotals = () => {
-  //   dispatch({ type: COUNT_CART_TOTALS });
-  // };
+  const countCartTotals = () => {
+    dispatch({ type: COUNT_CART_TOTALS });
+  };
 
   useEffect(() => {
-    // countCartTotals();
+    countCartTotals();
     localStorage.setItem('products', JSON.stringify(state.products));
   }, [state.products]);
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import { FaShoppingCart, FaUserMinus, FaUserPlus } from 'react-icons/fa';
+import { FaShoppingCart } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { useProductsContext } from '../context/products_context';
@@ -7,13 +7,14 @@ import { useCartContext } from '../context/cart_context';
 
 const CartButtons = () => {
   const { closeSidebar } = useProductsContext();
+  const { amount } = useCartContext();
   return (
     <Wrapper className="cart-btn-wrapper">
       <Link to="/cart" className="cart-btn" onClick={closeSidebar}>
         cart
         <span className="cart-container">
           <FaShoppingCart />
-          <span className="cart-value">1</span>
+          <span className="cart-value">{amount}</span>
         </span>
       </Link>
     </Wrapper>
