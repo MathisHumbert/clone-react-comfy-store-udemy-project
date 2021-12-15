@@ -23,8 +23,10 @@ const initialState = {
     text: '',
     category: 'all',
     company: 'all',
-    colors: 'all',
-    price: 'all',
+    color: 'all',
+    price: 0,
+    min: 0,
+    max: 0,
     shipping: false,
   },
 };
@@ -38,6 +40,11 @@ export const FilterProvider = ({ children }) => {
   useEffect(() => {
     dispatch({ type: LOAD_PRODUCTS, payload: products });
   }, [products]);
+
+  useEffect(() => {
+    dispatch({ type: SORT_PRODUCTS });
+    dispatch({ type: FILTER_PRODUCTS });
+  }, [state.sort, state.filters]);
 
   const setGridView = () => {
     dispatch({ type: SET_GRIDVIEW });
@@ -57,14 +64,29 @@ export const FilterProvider = ({ children }) => {
     if (name === 'category') {
       value = e.target.textContent;
     }
+    if (name === 'color') {
+      value = e.target.dataset.color;
+    }
+    if (name === 'shipping') {
+      value = e.target.checked;
+    }
+    dispatch({ type: UPDATE_FILTERS, payload: { name, value } });
+  };
 
-    console.log(name, value);
-    // dispatch({ type: UPDATE_FILTERS, payload: { name, value } });
+  const clearFilters = () => {
+    dispatch({ type: CLEAR_FILTERS });
   };
 
   return (
     <FilterContext.Provider
-      value={{ ...state, setGridView, setListView, handleSort, handleFilters }}
+      value={{
+        ...state,
+        setGridView,
+        setListView,
+        handleSort,
+        handleFilters,
+        clearFilters,
+      }}
     >
       {children}
     </FilterContext.Provider>

@@ -5,9 +5,15 @@ import { getUniqueValues, formatPrice } from '../utils/helpers';
 import { FaCheck } from 'react-icons/fa';
 
 const Filters = () => {
-  const { filters, handleFilters, filtered_products } = useFilterContext();
-  const { text, category, price, shipping } = filters;
-  const categories = getUniqueValues('category', filtered_products);
+  const {
+    filters,
+    handleFilters,
+    filtered_products,
+    clearFilters,
+    all_products,
+  } = useFilterContext();
+  const { text, category, company, color, price, shipping, max, min } = filters;
+  const categories = getUniqueValues('category', all_products);
   const companies = getUniqueValues('company', filtered_products);
   const colors = getUniqueValues('colors', filtered_products);
 
@@ -48,7 +54,12 @@ const Filters = () => {
           {/* company */}
           <div className="form-control">
             <h5>company</h5>
-            <select name="company" className="company" onChange={handleFilters}>
+            <select
+              name="company"
+              className="company"
+              onChange={handleFilters}
+              value={company}
+            >
               {companies.map((item, index) => {
                 return (
                   <option value={item} key={index}>
@@ -61,9 +72,64 @@ const Filters = () => {
           {/* colors */}
           <div className="form-control">
             <h5>colors</h5>
-            <div className="colors"></div>
+            <div className="colors">
+              {colors.map((c, index) => {
+                if (c === 'all') {
+                  return (
+                    <button
+                      name="color"
+                      data-color={c}
+                      className={c === color ? 'active all-btn' : 'all-btn'}
+                      onClick={handleFilters}
+                      key={index}
+                    >
+                      {c}
+                    </button>
+                  );
+                }
+                return (
+                  <button
+                    name="color"
+                    data-color={c}
+                    style={{ background: c }}
+                    className={c === color ? 'active color-btn' : 'color-btn'}
+                    onClick={handleFilters}
+                    key={index}
+                  >
+                    {c === color ? <FaCheck /> : null}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+          {/* price */}
+          <div className="form-control">
+            <h5>price</h5>
+            <p className="price">{formatPrice(price)}</p>
+            <input
+              type="range"
+              name="price"
+              min={min}
+              max={max}
+              value={price}
+              onChange={handleFilters}
+            />
+          </div>
+          {/* shipping */}
+          <div className="form-control shipping">
+            <label htmlFor="shipping">free shipping</label>
+            <input
+              type="checkbox"
+              name="shipping"
+              id="shipping"
+              onChange={handleFilters}
+              checked={shipping}
+            />
           </div>
         </form>
+        <button type="button" className="clear-btn" onClick={clearFilters}>
+          clear-items
+        </button>
       </div>
     </Wrapper>
   );
