@@ -18,7 +18,7 @@ const initialState = {
   all_products: [],
   featured_products: [],
   single_product: {},
-  loading: false,
+  loading: true,
   error: false,
 };
 
